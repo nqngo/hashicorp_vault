@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    vault_verify_version: v1.12.0
+    vault_verify_hash: 558abfa75702b5dab4c98e86b802fb9aef43b0eb
+  tasks:
+    - name: Fail if Vault is not {{ vault_verify_version }} ({{ vault_verify_hash }})
+      ansible.builtin.command:
+        cmd: vault --version
+      register: vault_cmd_version
+      changed_when: false
+      failed_when:
+        - not vault_verify_version in vault_cmd_version.stdout
+        - not vault_verify_hash in vault_cmd_version.stdout

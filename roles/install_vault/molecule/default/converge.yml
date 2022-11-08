@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    vault_version: vault-1.12.0-1
+  tasks:
+    - name: "Include install_vault"
+      ansible.builtin.include_role:
+        name: "install_vault"
+    - name: "Print Ansible facts"
+      ansible.builtin.debug:
+        var: ansible_facts

@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: centos7
+    image: quay.io/centos/centos:centos7
+    command: /sbin/init
+    capabilities:
+      - CAP_IPC_LOCK
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: centos8
+    image: quay.io/centos/centos:centos8
+    command: /sbin/init
+    capabilities:
+      - CAP_IPC_LOCK
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

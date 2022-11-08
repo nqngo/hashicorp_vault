@@ -1,0 +1,18 @@
+---
+# Instruction as provided by
+# https://developer.hashicorp.com/vault/downloads
+- name: Add HashiCorp repository
+  become: true
+  ansible.builtin.yum_repository:
+    name: hashicorp-stable
+    description: Hashicorp Stable
+    baseurl: "{{ vault_yum_baseurl }}"
+    gpgcheck: true
+    gpgkey: "{{ vault_yum_gpgkey }}"
+  when: vault_use_hashicorp_repo
+
+- name: Install Hashicorp Vault
+  become: true
+  ansible.builtin.yum:
+    name: "{{ vault_version }}"
+    state: present

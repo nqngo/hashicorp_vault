@@ -1,0 +1,6 @@
+---
+vault_raft_path: /opt/vault/data
+vault_use_hashicorp_repo: true
+vault_version: vault-1.12.1-1
+vault_yum_baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+vault_yum_gpgkey: https://rpm.releases.hashicorp.com/gpg

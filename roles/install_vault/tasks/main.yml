@@ -1,0 +1,11 @@
+---
+- name: Start installing HashiCorp Vault
+  ansible.builtin.include_tasks: install-redhat7.yml
+  when:
+  - ansible_facts['distribution'] == "RedHat" or ansible_facts['distribution'] == "CentOS"
+  - ansible_facts['distribution_major_version'] == "7"
+  tags: installation
+
+- name: Update HashiCorp Vault config
+  ansible.builtin.include_tasks: configure.yml
+  tags: configuration

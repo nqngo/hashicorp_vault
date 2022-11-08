@@ -1,0 +1,10 @@
+
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+ENV container=docker
+
+# Install missing sudo package to emulate a VM
+RUN yum install -y sudo

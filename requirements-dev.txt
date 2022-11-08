@@ -1,0 +1,4 @@
+tox
+molecule[docker]
+pre-commit
+docker

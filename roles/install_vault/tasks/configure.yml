@@ -1,0 +1,9 @@
+---
+- name: Ensure Raft backend {{ vault_raft_path }} path is created
+  become: true
+  ansible.builtin.file:
+    path: "{{ vault_raft_path }}"
+    owner: root
+    group: root
+    state: directory
+    mode: '0700'
