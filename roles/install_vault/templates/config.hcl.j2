@@ -1,13 +1,22 @@
 storage "raft" {
-  path    = "./vault/data"
-  node_id = "node1"
+  path    = "{{ vault_raft_path }}"
+  node_id = "{{ ansible_facts['nodename'] }}"
+  performance_multiplier = {{ vault_raft_performance_multiplier }}
+{% for node in vault_raft_members %}
+  retry_join {
+    leader_api_addr = "{{ vault_api_protocol }}://{{ node.ip }}:{{ node.port }}"
+  }
+{% endfor %}
 }
 
 listener "tcp" {
-  address     = "127.0.0.1:8200"
-  tls_disable = "true"
+  address     = "{{ ansible_facts['default_ipv4']['address'] }}:{{ vault_api_port }}"
+  cluster_address = "{{ ansible_facts['default_ipv4']['address'] }}:{{ vault_cluster_port }}"
+  tls_disable = "{{ vault_tls_disable }}"
 }
 
-api_addr = "http://127.0.0.1:8200"
-cluster_addr = "https://127.0.0.1:8201"
+api_addr = "{{ vault_api_protocol }}://{{ vault_api_addr }}:{{ vault_api_port }}"
+cluster_addr = "https://{{ vault_cluster_addr }}:{{ vault_cluster_port }}"
+cluster_name = "{{ vault_cluster_name }}"
 ui = true
+log_level = "INFO"

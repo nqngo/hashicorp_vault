@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include vault_softhsm"
+      ansible.builtin.include_role:
+        name: "vault_softhsm"

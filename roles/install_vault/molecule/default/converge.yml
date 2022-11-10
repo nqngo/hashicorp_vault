@@ -3,10 +3,12 @@
   hosts: all
   vars:
     vault_version: vault-1.12.0-1
-  tasks:
-    - name: "Include install_vault"
-      ansible.builtin.include_role:
-        name: "install_vault"
-    - name: "Print Ansible facts"
-      ansible.builtin.debug:
-        var: ansible_facts
+    vault_raft_members:
+      - ip: "{{ hostvars['vault-1']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+      - ip: "{{ hostvars['vault-2']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+      - ip: "{{ hostvars['vault-3']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+  roles:
+    - install_vault

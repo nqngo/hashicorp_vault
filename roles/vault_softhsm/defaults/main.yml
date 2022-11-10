@@ -1,0 +1,4 @@
+---
+vault_hsm_pin: 1234
+vault_hsm_so_pin: 1234
+vault_hsm_token_label: vault-hsm-key

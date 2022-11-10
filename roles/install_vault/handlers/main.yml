@@ -1,2 +1,12 @@
 ---
-# handlers file for install-vault
+- name: Reload systemd deamons
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Restart Vault systemd service
+  become: true
+  ansible.builtin.systemd:
+    name: vault
+    enabled: true
+    state: restarted

@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install test prerequisites
+      ansible.builtin.yum:
+        name:
+          - opensc
+          - sudo
+        state: present

@@ -1,11 +1,9 @@
 ---
-- name: Install HashiCorp Vault for RHEL7
+- name: Install SoftHSM2 for RHEL7
   ansible.builtin.include_tasks: install-redhat7.yml
   when:
   - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution_major_version'] == "7"
-  tags: installation
 
-- name: Update HashiCorp Vault config
+- name: Configure SoftHSM2
   ansible.builtin.include_tasks: configure.yml
-  tags: configuration

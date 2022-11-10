@@ -14,3 +14,9 @@
       failed_when:
         - not vault_verify_version in vault_cmd_version.stdout
         - not vault_verify_hash in vault_cmd_version.stdout
+
+    - name: Fail if Vault service is not running
+      check_mode: true
+      ansible.builtin.systemd:
+        name: vault
+        state: started

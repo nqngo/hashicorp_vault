@@ -1,5 +1,18 @@
 ---
+vault_api_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
+vault_api_port: 8200
+vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"
+vault_cluster_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
+vault_cluster_name: vault-production
+vault_cluster_port: 8201
+vault_config_path: /etc/vault.d/vault.hcl
+vault_raft_members:
+  - ip: "{{ ansible_facts['default_ipv4']['address'] }}"
+    port: "{{ vault_api_port }}"
 vault_raft_path: /opt/vault/data
+vault_raft_performance_multiplier: 1
+vault_systemd_path: /etc/systemd/system/vault.service
+vault_tls_disable: true
 vault_use_hashicorp_repo: true
 vault_version: vault-1.12.1-1
 vault_yum_baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable

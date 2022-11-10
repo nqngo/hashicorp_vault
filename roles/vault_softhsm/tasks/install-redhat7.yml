@@ -1,0 +1,7 @@
+---
+# https://wiki.opendnssec.org/display/SoftHSMDOCS/SoftHSM+Documentation+v2
+- name: Install SoftHSMv2
+  become: true
+  ansible.builtin.yum:
+    name: softhsm
+    state: present
