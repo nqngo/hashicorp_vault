@@ -5,8 +5,11 @@ This role install SoftHSMv2 to emulate a HSM for Vault autounseal.
 
 Role Variables
 --------------
-
-NONE
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `vault_hsm_pin` | `String` | `1234` | The SoftHSM user pin |
+| `vault_hsm_so_pin` | `String` | `1234` | The SoftHSM SO pin |
+| `vault_hsm_token_label` | `String` | `1234` | The SoftHSM Slot Token Label |
 
 Dependencies
 ------------
@@ -16,20 +19,18 @@ NONE
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yaml
     - hosts: servers
       roles:
-         - role: telstradef.hashicorp_vault.softhsm
+         - role: nqngo.hashicorp_vault.softhsm
 ```
 
 License
 -------
 
-BSD
+GPL-2.0-or-later
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Nhat Ngo
