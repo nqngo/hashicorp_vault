@@ -20,3 +20,12 @@
       ansible.builtin.systemd:
         name: vault
         state: started
+
+    - name: Fail if swap is not disabled in /etc/fstab
+      check_mode: true
+      register: fstab_check
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        line: '# \1'
+      failed_when: (fstab_check is changed) or (fstab_check is failed)

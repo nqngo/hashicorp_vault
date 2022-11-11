@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Nhat Ngo
+  description: Autounseal Vault using HSM
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: "4"
+
+  platforms:
+    - name: "EL"
+      versions:
+        - "7"
+
+  galaxy_tags:
+    - hsm
+    - vault
+    - hashicorp
+
+dependencies: []

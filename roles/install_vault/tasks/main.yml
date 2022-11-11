@@ -9,3 +9,7 @@
 - name: Update HashiCorp Vault config
   ansible.builtin.include_tasks: configure.yml
   tags: configuration
+
+- name: Harden HashiCorp Vault
+  ansible.builtin.include_tasks: hardening.yml
+  tags: hardening

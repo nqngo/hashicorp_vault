@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include autounseal_vault"
+      ansible.builtin.include_role:
+        name: "autounseal_vault"

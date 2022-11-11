@@ -8,4 +8,5 @@
         path: /etc/fstab
         state: present
         line: '/opt/swap none swap defaults 0 0'
-        created: true
+        mode: '0644'
+        create: true

@@ -4,8 +4,8 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: hsm
-    image: quay.io/centos/centos:centos7
+  - name: instance
+    image: quay.io/centos/centos:stream8
     pre_build_image: true
 provisioner:
   name: ansible
