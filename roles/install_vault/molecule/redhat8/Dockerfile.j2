@@ -1,0 +1,13 @@
+# Dockerfile stanza to fetch image name from molecule
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+# Specify environment
+ENV container=docker
+
+# Install missing packages to emulate a VM
+RUN if [ $(command -v yum) ]; then \
+    yum install -y sudo bash iproute systemd; \
+    fi

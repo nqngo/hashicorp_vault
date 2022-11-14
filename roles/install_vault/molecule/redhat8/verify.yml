@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    vault_verify_version: v1.12.0
+    vault_verify_hash: 558abfa75702b5dab4c98e86b802fb9aef43b0eb
+  tasks:
+    - name: Fail if Vault is not {{ vault_verify_version }} ({{ vault_verify_hash }})
+      ansible.builtin.command:
+        cmd: vault --version
+      register: vault_cmd_version
+      changed_when: false
+      failed_when:
+        - not vault_verify_version in vault_cmd_version.stdout
+        - not vault_verify_hash in vault_cmd_version.stdout
+
+    - name: Fail if Vault service is not running
+      check_mode: true
+      ansible.builtin.systemd:
+        name: vault
+        state: started
+
+    - name: Fail if swap is not disabled in /etc/fstab
+      check_mode: true
+      register: fstab_check
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        line: '# \1'
+      failed_when: (fstab_check is changed) or (fstab_check is failed)

@@ -1,9 +1,9 @@
 ---
-- name: Install HashiCorp Vault for RHEL7
+- name: Install HashiCorp Vault for RHEL7/8
   ansible.builtin.include_tasks: install-redhat7.yml
   when:
   - ansible_facts['os_family'] == "RedHat"
-  - ansible_facts['distribution_major_version'] == "7"
+  - ansible_facts['distribution_major_version'] in ["7", "8"]
   tags: installation
 
 - name: Update HashiCorp Vault config

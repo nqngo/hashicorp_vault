@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    vault_version: vault-1.12.0-1
+    vault_raft_members:
+      - ip: "{{ hostvars['redhat8-vault-1']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+      - ip: "{{ hostvars['redhat8-vault-2']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+      - ip: "{{ hostvars['redhat8-vault-3']['ansible_default_ipv4']['address'] }}"
+        port: 8200
+  roles:
+    - install_vault

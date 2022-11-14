@@ -28,3 +28,22 @@
   notify:
     - Reload systemd deamons
     - Restart Vault systemd service
+
+- name: Install license when using Vault Enterprise
+  become: true
+  ansible.builtin.copy:
+    src: "{{ vault_lic_src_path }}"
+    dest: "{{ vault_lic_dest_path }}"
+    owner: vault
+    group: vault
+    mode: '0400'
+  when: vault_version is search("enterprise")
+
+- name: Set license_path when using Vault Enterprise
+  become: true
+  ansible.builtin.lineinfile:
+    path: "{{ vault_config_path }}"
+    regex: '^license_path\ ='
+    line: license_path = "{{ vault_lic_dest_path }}"
+    insertbefore: "EOF"
+  when: vault_version is search("enterprise")
