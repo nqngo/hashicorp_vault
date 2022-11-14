@@ -5,5 +5,11 @@
   - ansible_facts['os_family'] == "RedHat"
   - ansible_facts['distribution_major_version'] == "7"
 
+- name: Install SoftHSM2 for RHEL8
+  ansible.builtin.include_tasks: install-redhat8.yml
+  when:
+  - ansible_facts['os_family'] == "RedHat"
+  - ansible_facts['distribution_major_version'] == "8"
+
 - name: Configure SoftHSM2
   ansible.builtin.include_tasks: configure.yml

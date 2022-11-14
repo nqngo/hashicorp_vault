@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    vault_hsm_package: "https://repo.almalinux.org/almalinux/8/AppStream/x86_64/os/Packages/softhsm-2.6.0-5.module_el8.6.0+2881+2f24dc92.x86_64.rpm"
+  tasks:
+    - name: "Include vault_softhsm"
+      ansible.builtin.include_role:
+        name: "vault_softhsm"

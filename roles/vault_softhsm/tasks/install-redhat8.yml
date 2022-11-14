@@ -2,6 +2,7 @@
 # https://wiki.opendnssec.org/display/SoftHSMDOCS/SoftHSM+Documentation+v2
 - name: Install SoftHSMv2
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ vault_hsm_package }}"
+    update_cache: true
     state: present

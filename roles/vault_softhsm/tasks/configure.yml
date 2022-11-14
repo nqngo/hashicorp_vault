@@ -1,4 +1,13 @@
 ---
+- name: Configure softhsm2 config
+  become: true
+  ansible.builtin.template:
+    src: softhsm2.conf.j2
+    dest: "{{ vault_softhsm_config_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Check if {{ vault_hsm_token_label }} has been generated
   ansible.builtin.shell:
     cmd: "softhsm2-util --show-slots | grep -q {{ vault_hsm_token_label }}"
@@ -27,3 +36,4 @@
 - name: Set the slot fact for Vault HSM
   ansible.builtin.set_fact:
     vault_hsm_token_slot: "{{ hsm_vault_slot.stdout }}"
+    cacheable: true
