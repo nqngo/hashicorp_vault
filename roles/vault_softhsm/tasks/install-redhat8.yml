@@ -1,5 +1,19 @@
 ---
 # https://wiki.opendnssec.org/display/SoftHSMDOCS/SoftHSM+Documentation+v2
+
+# dnf module provides softhsm
+# Module   : idm:DL1:8070020221109205654:93c20af6:x86_64
+- name: Add idm:DL1 module
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/dnf/modules.d/idm.module
+    content: |
+      [idm]
+      name=idm
+      stream=DL1
+      profiles=
+      state=enabled
+
 - name: Install SoftHSMv2
   become: true
   ansible.builtin.dnf:
