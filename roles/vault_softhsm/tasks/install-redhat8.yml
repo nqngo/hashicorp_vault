@@ -14,6 +14,14 @@
       profiles=
       state=enabled
 
+- name: Install dependencies
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - libtool-ltdl-devel
+      - opensc
+    state: present
+
 - name: Install SoftHSMv2
   become: true
   ansible.builtin.dnf:

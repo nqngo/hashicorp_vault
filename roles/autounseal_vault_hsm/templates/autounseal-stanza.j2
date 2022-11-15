@@ -1,0 +1,8 @@
+seal "pkcs11" {
+  lib = "{{ vault_autounseal_lib_path }}"
+  pin = "{{ vault_autounseal_hsm_pin }}"
+  token_label = "{{ vault_hsm_token_label }}"
+  key_label = "{{ vault_autounseal_hsm_key_label }}"
+  hmac_key_label = "{{ vault_autounseal_hmac_key_label }}"
+  generate_key = "true"
+}

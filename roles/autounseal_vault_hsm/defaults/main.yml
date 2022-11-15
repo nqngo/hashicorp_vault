@@ -1,1 +1,8 @@
 ---
+vault_autounseal_hmac_key_label: "vault-hsm-hmac-key"
+vault_autounseal_hsm_key_label: "{{ vault_hsm_token_label | default('vault-hsm-key') }}"
+vault_autounseal_hsm_slot: "{{ ansible_facts['vault_hsm_token_slot'] | default('0') }}"
+vault_autounseal_hsm_pin: "{{ vault_hsm_pin | default('1234') }}"
+vault_autounseal_lib_path: "/lib64/softhsm/libsofthsm.so"
+vault_config_path: /etc/vault.d/vault.hcl
+vault_hsm_token_label: vault-hsm-key

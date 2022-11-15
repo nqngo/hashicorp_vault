@@ -5,3 +5,4 @@ vault_hsm_token_label: vault-hsm-key
 vault_hsm_package: softhsm
 vault_softhsm_log_level: ERROR
 vault_softhsm_config_path: /etc/softhsm2.conf
+vault_softhsm_token_dir: /var/lib/softhsm/tokens/

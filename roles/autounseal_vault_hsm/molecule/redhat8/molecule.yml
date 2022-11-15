@@ -4,8 +4,8 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: vault-hsm-1
-    image: quay.io/centos/centos:centos7
+  - name: redhat8-vault-hsm-1
+    image: almalinux:8
     command: /sbin/init
     privileged: true
     capabilities:
@@ -18,8 +18,8 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     environment:
       container: docker
-  - name: vault-hsm-2
-    image: quay.io/centos/centos:centos7
+  - name: redhat8-vault-hsm-2
+    image: almalinux:8
     command: /sbin/init
     privileged: true
     capabilities:
@@ -32,8 +32,8 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     environment:
       container: docker
-  - name: vault-hsm-3
-    image: quay.io/centos/centos:centos7
+  - name: redhat8-vault-hsm-3
+    image: almalinux:8
     command: /sbin/init
     privileged: true
     capabilities:

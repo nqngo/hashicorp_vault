@@ -1,2 +1,16 @@
 ---
-# tasks file for autounseal_vault
+- name: Set autounseal stanza in the Vault config
+  become: true
+  ansible.builtin.blockinfile:
+    path: "{{ vault_config_path }}"
+    insertbefore: "EOF"
+    marker: "# {mark} ANSIBLE MANAGED SEAL STANZA"
+    block: "{{ lookup('template', 'autounseal-stanza.j2') }}"
+  notify:
+    - Restart Vault systemd service
+
+- name: Install opensc
+  become: true
+  ansible.builtin.dnf:
+    name: opensc
+    state: present

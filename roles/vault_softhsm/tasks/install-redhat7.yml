@@ -1,5 +1,13 @@
 ---
 # https://wiki.opendnssec.org/display/SoftHSMDOCS/SoftHSM+Documentation+v2
+- name: Install dependencies
+  become: true
+  ansible.builtin.yum:
+    name:
+      - libtool-ltdl-devel
+      - opensc
+    state: present
+
 - name: Install SoftHSMv2
   become: true
   ansible.builtin.yum:

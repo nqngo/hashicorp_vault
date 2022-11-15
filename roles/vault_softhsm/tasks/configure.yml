@@ -33,6 +33,14 @@
   changed_when: false
   register: hsm_vault_slot
 
+- name: Set {{ vault_softhsm_token_dir }} owner to vault
+  become: true
+  ansible.builtin.file:
+    dest: "{{ vault_softhsm_token_dir }}"
+    owner: vault
+    group: vault
+    recurse: true
+
 - name: Set the slot fact for Vault HSM
   ansible.builtin.set_fact:
     vault_hsm_token_slot: "{{ hsm_vault_slot.stdout }}"

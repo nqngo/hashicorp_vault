@@ -1,2 +1,7 @@
 ---
-# handlers file for autounseal_vault
+- name: Restart Vault systemd service
+  become: true
+  ansible.builtin.systemd:
+    name: vault
+    enabled: true
+    state: restarted

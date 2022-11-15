@@ -11,7 +11,7 @@ storage "raft" {
 
 listener "tcp" {
   address     = "{{ ansible_facts['default_ipv4']['address'] }}:{{ vault_api_port }}"
-  cluster_address = "{{ ansible_facts['default_ipv4']['address'] }}:{{ vault_cluster_port }}"
+{#  cluster_address = "{{ ansible_facts['default_ipv4']['address'] }}:{{ vault_cluster_port }}" #}
   tls_disable = "{{ vault_tls_disable }}"
 }
 

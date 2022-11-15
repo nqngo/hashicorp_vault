@@ -7,11 +7,11 @@
     vault_log_level: DEBUG
     vault_softhsm_log_level: DEBUG
     vault_raft_members:
-      - ip: "{{ hostvars['vault-hsm-1']['ansible_default_ipv4']['address'] }}"
+      - ip: "{{ hostvars['redhat8-vault-hsm-1']['ansible_default_ipv4']['address'] }}"
         port: 8200
-      - ip: "{{ hostvars['vault-hsm-2']['ansible_default_ipv4']['address'] }}"
+      - ip: "{{ hostvars['redhat8-vault-hsm-2']['ansible_default_ipv4']['address'] }}"
         port: 8200
-      - ip: "{{ hostvars['vault-hsm-3']['ansible_default_ipv4']['address'] }}"
+      - ip: "{{ hostvars['redhat8-vault-hsm-3']['ansible_default_ipv4']['address'] }}"
         port: 8200
   tasks:
     - name: "Install vault"
