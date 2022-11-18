@@ -3,8 +3,8 @@
   become: true
   ansible.builtin.file:
     dest: "{{ vault_softhsm_token_dir }}"
-    owner: vault
-    group: vault
+    owner: "{{ vault_hsm_user }}"
+    group: "{{ vault_hsm_group }}"
     mode: '0755'
     state: directory
 
@@ -13,8 +13,8 @@
   ansible.builtin.template:
     src: softhsm2.conf.j2
     dest: "{{ vault_softhsm_config_path }}"
-    owner: vault
-    group: vault
+    owner: "{{ vault_hsm_user }}"
+    group: "{{ vault_hsm_group }}"
     mode: '0644'
 
 - name: Check if {{ vault_hsm_token_label }} has been generated
@@ -26,7 +26,7 @@
 
 - name: Generate HSM key for Vault instance
   become: true
-  become_user: vault
+  become_user: "{{ vault_hsm_user }}"
   ansible.builtin.shell:
     cmd: >-
       softhsm2-util --init-token --free

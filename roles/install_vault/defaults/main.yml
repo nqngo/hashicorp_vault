@@ -1,4 +1,6 @@
 ---
+vault_user: vault
+vault_group: vault
 vault_api_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
 vault_api_port: 8200
 vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"

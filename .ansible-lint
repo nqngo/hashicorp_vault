@@ -2,3 +2,6 @@
 skip_list:
   - name[template]
   - command-instead-of-shell
+exclude_paths:
+  - .tox
+  - dist

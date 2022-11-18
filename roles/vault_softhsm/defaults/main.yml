@@ -1,4 +1,6 @@
 ---
+vault_hsm_user: "{{ vault_user | default('root') }}"
+vault_hsm_group: "{{ vault_group | default('root') }}"
 vault_hsm_pin: 1234
 vault_hsm_so_pin: 1234
 vault_hsm_token_label: vault-hsm-key

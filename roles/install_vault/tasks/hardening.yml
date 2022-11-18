@@ -32,7 +32,8 @@
   ansible.builtin.lineinfile:
     path: /etc/fstab
     regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
-    line: '# \1'
+    line: '# \g<1>'
+    backrefs: true
 
 # Disable core dumps
 # DONE - as part of vault.service template

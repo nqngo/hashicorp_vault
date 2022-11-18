@@ -4,6 +4,7 @@
   vars:
     fact_vault_hsm_slot: "0"
     vault_hsm_token_label: vault-hsm-key
+    vault_hsm_lib_path: "/usr/lib64/libsofthsm2.so"
   tasks:
     - name: Fail if {{ vault_hsm_token_label }} is not in Slot {{ fact_vault_hsm_slot }}
       ansible.builtin.shell:

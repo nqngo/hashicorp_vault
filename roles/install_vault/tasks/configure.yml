@@ -3,8 +3,8 @@
   become: true
   ansible.builtin.file:
     path: "{{ vault_raft_path }}"
-    owner: vault
-    group: vault
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
     state: directory
     mode: '0700'
 
@@ -15,8 +15,8 @@
     insertbefore: "EOF"
     marker: "# {mark} ANSIBLE MANAGED CONFIG"
     block: "{{ lookup('ansible.builtin.template', 'config.hcl.j2') }}"
-    owner: vault
-    group: vault
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
     create: true
     mode: '0644'
 
@@ -37,8 +37,8 @@
   ansible.builtin.copy:
     src: "{{ vault_lic_src_path }}"
     dest: "{{ vault_lic_dest_path }}"
-    owner: vault
-    group: vault
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
     mode: '0400'
   when: vault_version is search("enterprise")
 

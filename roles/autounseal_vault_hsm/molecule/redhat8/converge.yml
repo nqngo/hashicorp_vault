@@ -2,7 +2,10 @@
 - name: Converge
   hosts: all
   vars:
+    vault_autounseal_recovery_key_print: true
     vault_version: vault-enterprise-hsm-1.12.1+ent-1
+    vault_user: vault
+    vault_group: vault
     vault_hsm_pin: "1234"
     vault_log_level: DEBUG
     vault_softhsm_log_level: DEBUG

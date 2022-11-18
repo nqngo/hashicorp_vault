@@ -1,3 +1,3 @@
 # Ansible Collection - nqngo.hashicorp_vault
 
-Documentation for the collection.
+A collection of roles to create and manage HashiCorp Vault.
