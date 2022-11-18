@@ -5,7 +5,7 @@ vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"
 vault_cluster_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
 vault_cluster_name: vault-production
 vault_cluster_port: 8201
-vault_config_path: /etc/vault.d/vault.hcl
+vault_config_path: /etc/vault.d/vault-cluster.hcl
 vault_lic_src_path: /opt/vault.lic
 vault_lic_dest_path: /etc/vault.d/license.hclic
 vault_log_level: INFO

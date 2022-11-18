@@ -8,13 +8,16 @@
     state: directory
     mode: '0700'
 
-- name: Populate Vault config.hcl
+- name: Populate Vault config
   become: true
-  ansible.builtin.template:
-    src: config.hcl.j2
-    dest: "{{ vault_config_path }}"
+  ansible.builtin.blockinfile:
+    path: "{{ vault_config_path }}"
+    insertbefore: "EOF"
+    marker: "# {mark} ANSIBLE MANAGED CONFIG"
+    block: "{{ lookup('ansible.builtin.template', 'config.hcl.j2') }}"
     owner: vault
     group: vault
+    create: true
     mode: '0644'
 
 - name: Configure Vault systemd service

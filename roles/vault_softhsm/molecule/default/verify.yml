@@ -17,7 +17,7 @@
     - name: Test generating an RSA2048 key in the {{ fact_vault_hsm_slot }}
       ansible.builtin.shell:
         cmd: >-
-          pkcs11-tool --modul /usr/lib64/libsofthsm2.so --login --login-type user
+          pkcs11-tool --module {{ vault_hsm_lib_path }} --login --login-type user
           --pin 1234 --keypairgen --id 736f6d652d6964 --key-type rsa:2048
       register: pkcs11_keygen
       changed_when: true

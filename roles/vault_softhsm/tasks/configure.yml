@@ -1,11 +1,20 @@
 ---
+- name: Create vault hsm token directory
+  become: true
+  ansible.builtin.file:
+    dest: "{{ vault_softhsm_token_dir }}"
+    owner: vault
+    group: vault
+    mode: '0755'
+    state: directory
+
 - name: Configure softhsm2 config
   become: true
   ansible.builtin.template:
     src: softhsm2.conf.j2
     dest: "{{ vault_softhsm_config_path }}"
-    owner: root
-    group: root
+    owner: vault
+    group: vault
     mode: '0644'
 
 - name: Check if {{ vault_hsm_token_label }} has been generated
@@ -16,6 +25,8 @@
   failed_when: hsm_check_token.rc not in [0, 1]
 
 - name: Generate HSM key for Vault instance
+  become: true
+  become_user: vault
   ansible.builtin.shell:
     cmd: >-
       softhsm2-util --init-token --free
@@ -32,14 +43,6 @@
       grep ^Slot | sed 'q;d' | cut -d\  -f2
   changed_when: false
   register: hsm_vault_slot
-
-- name: Set {{ vault_softhsm_token_dir }} owner to vault
-  become: true
-  ansible.builtin.file:
-    dest: "{{ vault_softhsm_token_dir }}"
-    owner: vault
-    group: vault
-    recurse: true
 
 - name: Set the slot fact for Vault HSM
   ansible.builtin.set_fact:

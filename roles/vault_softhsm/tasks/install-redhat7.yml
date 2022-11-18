@@ -13,3 +13,8 @@
   ansible.builtin.yum:
     name: "{{ vault_hsm_package }}"
     state: present
+
+- name: Set libsofthsm2 path fact
+  ansible.builtin.set_fact:
+    vault_hsm_lib_path: /usr/lib64/libsofthsm2.so
+    cacheable: true

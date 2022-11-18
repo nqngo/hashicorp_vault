@@ -5,12 +5,47 @@
     path: "{{ vault_config_path }}"
     insertbefore: "EOF"
     marker: "# {mark} ANSIBLE MANAGED SEAL STANZA"
-    block: "{{ lookup('template', 'autounseal-stanza.j2') }}"
+    block: "{{ lookup('ansible.builtin.template', 'autounseal-stanza.j2') }}"
   notify:
     - Restart Vault systemd service
 
-- name: Install opensc
+- name: Starting all queued services
+  ansible.builtin.meta: flush_handlers
+
+- name: Check Vault initialisation status
+  ansible.builtin.uri:
+    url: "{{ vault_api_url }}/v1/sys/health"
+    status_code: [200, 429, 472, 473, 501, 503]
+  register: vault_health
+
+- name: Initialise Vault
+  ansible.builtin.uri:
+    url: "{{ vault_api_url }}/v1/sys/init"
+    method: POST
+    body: "{{ lookup('ansible.builtin.template', 'init.json.j2') }}"
+    body_format: json
+  register: vault_unseal
+  when: vault_health.status == 501
+
+- name: DEBUG - Vault initialisation parameters
+  ansible.builtin.debug:
+    var: vault_unseal.json
+  when:
+    - vault_autounseal_recovery_key_print
+    - vault_health.status == 501
+
+- name: Save Vault unseal recovery keys to {{ vault_autounseal_recovery_key_path }}
   become: true
-  ansible.builtin.dnf:
-    name: opensc
-    state: present
+  ansible.builtin.copy:
+    content: "{{ vault_unseal.json }}"
+    dest: "{{ vault_autounseal_recovery_key_path }}"
+    owner: root
+    group: root
+    mode: '0400'
+  when: vault_health.status == 501
+
+- name: Register Vault root token
+  ansible.builtin.set_fact:
+    vault_token: "{{ vault_unseal.json['root_token'] }}"
+    cacheable: true
+  when: vault_health.status == 501

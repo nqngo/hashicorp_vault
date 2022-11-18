@@ -13,6 +13,9 @@
       stream=DL1
       profiles=
       state=enabled
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Install dependencies
   become: true
@@ -28,3 +31,8 @@
     name: "{{ vault_hsm_package }}"
     update_cache: true
     state: present
+
+- name: Set libsofthsm2 path fact
+  ansible.builtin.set_fact:
+    vault_hsm_lib_path: /lib64/softhsm/libsofthsm.so
+    cacheable: true

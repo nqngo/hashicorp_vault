@@ -2,16 +2,13 @@
 - name: Converge
   hosts: all
   vars:
+    vault_autounseal_recovery_key_print: true
     vault_version: vault-enterprise-hsm-1.12.1+ent-1
     vault_hsm_pin: "1234"
     vault_log_level: DEBUG
     vault_softhsm_log_level: DEBUG
     vault_raft_members:
-      - ip: "{{ hostvars['vault-hsm-1']['ansible_default_ipv4']['address'] }}"
-        port: 8200
-      - ip: "{{ hostvars['vault-hsm-2']['ansible_default_ipv4']['address'] }}"
-        port: 8200
-      - ip: "{{ hostvars['vault-hsm-3']['ansible_default_ipv4']['address'] }}"
+      - ip: "{{ hostvars['vault-hsm']['ansible_default_ipv4']['address'] }}"
         port: 8200
   tasks:
     - name: "Install vault"

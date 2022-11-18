@@ -1,10 +1,33 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
-  gather_facts: false
+  vars:
+    vault_api_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
+    vault_api_port: 8200
+    vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"
+    vault_api_url: "{{ vault_api_protocol }}://{{ vault_api_addr }}:{{ vault_api_port }}"
+    vault_tls_disable: true
   tasks:
-  - name: Example assertion
-    ansible.builtin.assert:
-      that: true
+    # https://developer.hashicorp.com/vault/api-docs/system/health
+    - name: Check if Vault is initialised, unsealed and active
+      ansible.builtin.uri:
+        url: "{{ vault_api_url }}/v1/sys/health"
+        status_code: 200
+
+    - name: Restart Vault service
+      become: true
+      ansible.builtin.systemd:
+        name: vault
+        enabled: true
+        state: restarted
+
+    - name: Wait for the Vault server to start
+      ansible.builtin.wait_for:
+        host: "{{ vault_api_addr }}"
+        port: "{{ vault_api_port }}"
+        delay: 1
+
+    - name: Check if Vault is still initialised, unsealed and active
+      ansible.builtin.uri:
+        url: "{{ vault_api_url }}/v1/sys/health"
+        status_code: 200
