@@ -1,0 +1,21 @@
+name: Roles
+on:
+  - push
+
+jobs:
+  tox:
+    name: Tox CI Test ⚙️
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+
+      - name: Install dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Run tox
+        run: tox -e ansible66-roles-vault-softhsm-default

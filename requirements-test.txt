@@ -1,3 +1,2 @@
 tox-ansible~=1.8
 molecule[docker]
-pre-commit
