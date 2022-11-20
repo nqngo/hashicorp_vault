@@ -1,12 +1,34 @@
 name: Roles
 on:
-  - push
+  push:
+    paths:
+      - 'roles/**'
+      - '!roles/**.md'
 
 jobs:
-  tox:
-    name: Tox CI Test ⚙️
+  changes:
+    name: Get changed roles 👀
     runs-on: ubuntu-latest
+    outputs:
+      roles: ${{ steps.filter.outputs.changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            autounseal_vault_hsm: roles/autounseal_vault_hsm/**
+            install_vault: roles/install_vault/**
+            vault_softhsm: roles/vault_softhsm/**
 
+  tox:
+    needs: changes
+    name: Tox CI Test ⚙️
+    strategy:
+      matrix:
+        role: ${{ fromJSON(needs.changes.outputs.roles) }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -17,5 +39,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-test.txt
 
-      - name: Run tox
-        run: tox -e ansible66-roles-vault-softhsm-default
+      - name: Run tox role against ${{ matrix.role }}
+        run: tox -l | grep ${{ matrix.role }} | xargs -n1 tox -e
