@@ -1,38 +1,47 @@
-Role Name
-=========
+Autounseal Vault with HSM
+=============
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role configure Vault with HSM Autounseal. It requires a functioning Vault cluster.
 
 Role Variables
 --------------
+| Name                              | Type     | Default                          | Description               |
+| --------------------------------- | -------- | -------------------------------- | ------------------------- |
+| `vault_autounseal_hmac_key_label` | `String` | `vault-hsm-hmac-key`             | HSM HMAC key label        |
+| `vault_autounseal_hsm_key_label`  | `String` | `vault-hsm-key`                  | HSM Key Label             |
+| `vault_autounseal_hsm_slot`       | `String` | `0`                              | The HSM Slot              |
+| `vault_autounseal_hsm_pin`        | `String` | `1234`                           | HSM Pin                   |
+| `vault_autounseal_lib_path`       | `String` | `/lib64/softhsm/libsofthsm.so`   | The lib path to HSM       |
+| `vault_config_path`               | `String` | `/etc/vault.d/vault-cluster.hcl` | Path to Vault config file |
+| `vault_hsm_token_label`           | `String` | `vault-hsm-token`                | Vault HSM Token Name      |
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+NONE
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
+```yaml
     - hosts: servers
+      vars:
+        vault_autounseal_hmac_key_label: vault-hsm-hmac-key
+        vault_autounseal_hsm_key_label: vault-hsm-key
+        vault_autounseal_hsm_slot: "0"
+        vault_autounseal_hsm_pin: "1234"
+        vault_autounseal_lib_path: "/lib64/softhsm/libsofthsm.so"
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: nqngo.hashicorp_vault.autounseal_vault_hsm
+```
 
 License
 -------
 
-BSD
+GPL-2.0-or-later
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Nhat Ngo

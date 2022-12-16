@@ -1,27 +1,14 @@
 ---
-# Production hardening
-# https://developer.hashicorp.com/vault/tutorials/operations/production-hardening
-
-# Do not run as root
-# DONE -- as part of installation
-
-# Allow minimal write privileged
-# DONE -- as part of configuration
-
-# End-to-End TLS
-# TODO
-
-# Disable swap
 - name: Check if swap is enabled
   ansible.builtin.command:
-    cmd: swapon -s
+    cmd: /usr/sbin/swapon -s
   changed_when: false
   register: swap_status
 
 - name: Disable swap for current session if on
   become: true
-  ansible.builtin.shell:
-    cmd: swapoff -a
+  ansible.builtin.command:
+    cmd: /usr/sbin/swapoff -a
   register: swapoff_status
   changed_when: swapoff_status.rc == 0
   when: swap_status.stdout | length > 0
@@ -34,43 +21,3 @@
     regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
     line: '# \g<1>'
     backrefs: true
-
-# Disable core dumps
-# DONE - as part of vault.service template
-
-# Single Tenancy
-# IGNORED
-
-# Firewall traffic
-# IGNORED
-
-# Avoid Root Tokens
-# TODO
-
-# Enable audit logging
-
-# Disable shell command history
-
-# Update Frequently
-# IGNORED
-
-# Synchronize clocks
-# TODO
-
-# Restrict storage access
-
-# No Clear Text Credentials
-
-# Use Safest Algorithms Available
-
-# Follow Best Practices For Plugins
-
-# Non-Deterministic File Merging
-
-# Use Correct Filesystem Permissions
-
-# Use Standard Input For Vault Secrets
-
-# Offboarding Considerations
-
-# Use Short TTL

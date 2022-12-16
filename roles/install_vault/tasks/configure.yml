@@ -30,17 +30,18 @@
     mode: '0644'
   notify:
     - Reload systemd deamons
-    - Restart Vault systemd service
 
 - name: Install license when using Vault Enterprise
   become: true
   ansible.builtin.copy:
-    src: "{{ vault_lic_src_path }}"
+    content: "{{ vault_lic_content }}"
     dest: "{{ vault_lic_dest_path }}"
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: '0400'
-  when: vault_version is search("enterprise")
+  when:
+    - vault_version is search("enterprise")
+    - vault_lic_content | length > 0
 
 - name: Set license_path when using Vault Enterprise
   become: true
@@ -49,4 +50,6 @@
     regex: '^license_path\ ='
     line: license_path = "{{ vault_lic_dest_path }}"
     insertbefore: "EOF"
-  when: vault_version is search("enterprise")
+  when:
+    - vault_version is search("enterprise")
+    - vault_lic_content | length > 0

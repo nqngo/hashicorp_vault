@@ -10,8 +10,16 @@
     vault_log_level: DEBUG
     vault_softhsm_log_level: DEBUG
     vault_raft_members:
-      - ip: "{{ hostvars['redhat8-vault-hsm']['ansible_default_ipv4']['address'] }}"
+      - ip: "{{ hostvars['vault-hsm']['ansible_default_ipv4']['address'] }}"
         port: 8200
+    vault_api_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
+    vault_api_port: 8200
+    vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"
+    vault_tls_disable: true
+    vault_api_url: "{{ vault_api_protocol }}://{{ vault_api_addr }}:{{ vault_api_port }}"
+    vault_autounseal_recovery_shares: 1
+    vault_autounseal_recovery_threshold: 1
+    vault_autounseal_recovery_key_path: "/tmp/recovery_key.json"
   tasks:
     - name: "Install vault"
       ansible.builtin.include_role:
@@ -22,3 +30,38 @@
     - name: "Include autounseal_vault"
       ansible.builtin.include_role:
         name: "autounseal_vault_hsm"
+
+    - name: Start all the queued services
+      ansible.builtin.meta: flush_handlers
+
+    - name: Start Vault systemd service
+      become: true
+      ansible.builtin.systemd:
+        name: vault
+        enabled: true
+        state: started
+
+    - name: Check Vault initialisation status
+      ansible.builtin.uri:
+        url: "{{ vault_api_url }}/v1/sys/health"
+        status_code: [200, 429, 472, 473, 501, 503]
+      register: vault_health
+
+    - name: Initialise Vault
+      ansible.builtin.uri:
+        url: "{{ vault_api_url }}/v1/sys/init"
+        method: POST
+        body:
+          recovery_shares: "{{ vault_autounseal_recovery_shares }}"
+          recovery_threshold: "{{ vault_autounseal_recovery_threshold }}"
+        body_format: json
+      register: vault_init
+      when: vault_health.status == 501
+
+    - name: Save Vault root token
+      delegate_to: localhost
+      ansible.builtin.copy:
+        content: "{{ vault_init.json.root_token }}"
+        dest: "{{ vault_autounseal_recovery_key_path }}"
+        mode: '0400'
+      when: vault_health.status == 501

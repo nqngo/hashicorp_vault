@@ -8,7 +8,6 @@
     vault_api_url: "{{ vault_api_protocol }}://{{ vault_api_addr }}:{{ vault_api_port }}"
     vault_tls_disable: true
   tasks:
-    # https://developer.hashicorp.com/vault/api-docs/system/health
     - name: Check if Vault is initialised, unsealed and active
       ansible.builtin.uri:
         url: "{{ vault_api_url }}/v1/sys/health"

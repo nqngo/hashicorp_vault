@@ -1,17 +1,8 @@
 ---
-vault_api_addr: "{{ ansible_facts['default_ipv4']['address'] }}"
-vault_api_port: 8200
-vault_api_protocol: "{{ 'http' if vault_tls_disable else 'https' }}"
-vault_api_url: "{{ vault_api_protocol }}://{{ vault_api_addr }}:{{ vault_api_port }}"
-vault_autounseal_hmac_key_label: "vault-hsm-hmac-key"
+vault_autounseal_hmac_key_label: vault-hsm-hmac-key
 vault_autounseal_hsm_key_label: "{{ vault_hsm_token_label | default('vault-hsm-key') }}"
 vault_autounseal_hsm_slot: "{{ ansible_facts['vault_hsm_token_slot'] | default('0') }}"
 vault_autounseal_hsm_pin: "{{ vault_hsm_pin | default('1234') }}"
 vault_autounseal_lib_path: "{{ ansible_facts['vault_hsm_lib_path'] | default('/lib64/softhsm/libsofthsm.so') }}"
-vault_autounseal_recovery_key_print: false
-vault_autounseal_recovery_key_path: "/tmp/recovery_key.json"
-vault_autounseal_recovery_shares: 1
-vault_autounseal_recovery_threshold: 1
 vault_config_path: /etc/vault.d/vault-cluster.hcl
-vault_hsm_token_label: vault-hsm-key
-vault_tls_disable: true
+vault_hsm_token_label: vault-hsm-token

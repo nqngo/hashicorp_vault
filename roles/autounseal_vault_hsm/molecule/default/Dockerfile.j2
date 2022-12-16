@@ -9,5 +9,5 @@ ENV container=docker
 
 # Install missing packages to emulate a VM
 RUN if [ $(command -v yum) ]; then \
-    yum install -y sudo bash iproute systemd; \
+    yum install -y sudo bash iproute systemd vim less; \
     fi

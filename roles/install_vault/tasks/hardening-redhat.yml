@@ -1,0 +1,27 @@
+---
+- name: Allow Vault API Port
+  become: true
+  ansible.posix.firewalld:
+    port: "{{ vault_api_port }}/tcp"
+    parmanent: true
+    state: enabled
+
+- name: Allow Vault cluster port
+  become: true
+  ansible.posix.firewalld:
+    port: "{{ vault_cluster_port }}/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Install chrony to ensure time synchronisation
+  become: true
+  ansible.builtin.yum:
+    name: chrony
+
+- name: Start the chrony service
+  become: true
+  ansible.builtin.systemd:
+    name: chrony
+    enabled: true
+    state: started

@@ -2,7 +2,3 @@ directories.tokendir = {{ vault_softhsm_token_dir }}
 objectstore.backend = file
 {# ERROR, WARNING, INFO, DEBUG #}
 log.level = {{ vault_softhsm_log_level }}
-{# Enable and disable PKCS#11 mechanisms using slots.mechanisms #}
-slots.mechanisms = ALL
-{# If the library should reset the state on fork #}1
-library.reset_on_fork = false
