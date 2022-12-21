@@ -6,4 +6,5 @@
       ansible.builtin.yum:
         name:
           - sudo
+          - opensc
         state: present
