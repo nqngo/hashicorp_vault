@@ -9,6 +9,7 @@ platforms:
     dockerfile: ../common/Dockerfile.j2
     command: /sbin/init
     privileged: true
+    cgroupns_mode: host
     capabilities:
       - CAP_SYS_ADMIN
       - CAP_IPC_LOCK
