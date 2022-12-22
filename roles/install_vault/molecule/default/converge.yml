@@ -6,10 +6,6 @@
     vault_raft_members:
       - ip: "{{ hostvars['vault-1']['ansible_default_ipv4']['address'] }}"
         port: 8200
-      - ip: "{{ hostvars['vault-2']['ansible_default_ipv4']['address'] }}"
-        port: 8200
-      - ip: "{{ hostvars['vault-3']['ansible_default_ipv4']['address'] }}"
-        port: 8200
   tasks:
     - name: Start the convergence playbook
       ansible.builtin.include_tasks: ../common/converge.yml

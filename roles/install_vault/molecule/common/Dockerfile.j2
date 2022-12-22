@@ -8,6 +8,9 @@ FROM {{ item.image }}
 ENV container=docker
 
 # Install missing packages to emulate a VM
-RUN if [ $(command -v yum) ]; then \
-    yum install -y sudo bash iproute systemd; \
+RUN if [ $(command -v dnf) ]; then \
+        dnf makecache && dnf --assumeyes install sudo bash iproute systemd && \
+        dnf clean all && ln -s /usr/bin/python3 /usr/bin/python; \
+    elif [ $(command -v yum) ]; then \
+        yum install -y sudo bash iproute systemd; \
     fi
