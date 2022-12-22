@@ -1,0 +1,31 @@
+---
+- name: Start Vault systemd service
+  become: true
+  ansible.builtin.systemd:
+    name: vault
+    enabled: true
+    state: started
+
+- name: Fail if Vault is not {{ vault_verify_version }} ({{ vault_verify_hash }})
+  ansible.builtin.command:
+    cmd: vault --version
+  register: vault_cmd_version
+  changed_when: false
+  failed_when:
+    - not vault_verify_version in vault_cmd_version.stdout
+    - not vault_verify_hash in vault_cmd_version.stdout
+
+- name: Fail if Vault service is not running
+  check_mode: true
+  ansible.builtin.systemd:
+    name: vault
+    state: started
+
+- name: Fail if swap is not disabled in /etc/fstab
+  check_mode: true
+  register: fstab_check
+  ansible.builtin.replace:
+    path: /etc/fstab
+    regexp: '^([^#].*\s+swap.*)$'
+    replace: '# \g<1>'
+  failed_when: (fstab_check is changed) or (fstab_check is failed)

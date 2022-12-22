@@ -1,4 +1,6 @@
 ---
+warn_list:
+  - syntax-check[specific]
 skip_list:
   - name[template]
   - command-instead-of-shell

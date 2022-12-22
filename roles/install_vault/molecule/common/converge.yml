@@ -1,0 +1,10 @@
+---
+- name: "Install vault"
+  ansible.builtin.include_role:
+    name: "install_vault"
+- name: Start Vault systemd service
+  become: true
+  ansible.builtin.systemd:
+    name: vault
+    enabled: true
+    state: started

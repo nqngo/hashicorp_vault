@@ -6,6 +6,7 @@ driver:
 platforms:
   - name: redhat8-vault-1
     image: almalinux:8
+    dockerfile: ../common/Dockerfile.j2
     command: /sbin/init
     privileged: true
     capabilities:
@@ -20,6 +21,7 @@ platforms:
       container: docker
   - name: redhat8-vault-2
     image: almalinux:8
+    dockerfile: ../common/Dockerfile.j2
     command: /sbin/init
     privileged: true
     capabilities:
@@ -34,6 +36,7 @@ platforms:
       container: docker
   - name: redhat8-vault-3
     image: almalinux:8
+    dockerfile: ../common/Dockerfile.j2
     command: /sbin/init
     privileged: true
     capabilities:
@@ -48,5 +51,7 @@ platforms:
       container: docker
 provisioner:
   name: ansible
+  playbooks:
+    prepare: ../common/prepare.yml
 verifier:
   name: ansible

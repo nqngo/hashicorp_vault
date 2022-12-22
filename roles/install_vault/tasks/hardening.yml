@@ -16,8 +16,7 @@
 
 - name: Disable swap partition in /etc/fstab
   become: true
-  ansible.builtin.lineinfile:
+  ansible.builtin.replace:
     path: /etc/fstab
-    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
-    line: '# \g<1>'
-    backrefs: true
+    regexp: '^([^#].*\s+swap.*)$'
+    replace: '# \g<1>'
